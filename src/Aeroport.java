@@ -21,7 +21,14 @@ public class Aeroport {
 
     public void AfegirAvio(Avio[] aeroport) {
         for (int i = 0; i < aeroport.length; i++) {
-            aeroport[i] = new Avio(p.NextString("Matricula: "), p.NextInt("Autonomia: "), p.NextInt("Capacitat de carrega: "));
+            boolean correcto = false;
+            String matricula = "";
+            while (!correcto) {
+                matricula = p.NextString("Matricula: ");
+                if (p.MatriculaLibre(matricula, aeroport)) correcto = true;
+                else System.out.println("Matricula repetida");
+            }
+            aeroport[i] = new Avio(matricula, p.NextInt("Autonomia: "), p.NextInt("Capacitat de carrega: "));
         }
     }
 
@@ -40,6 +47,19 @@ public class Aeroport {
                 }
             }
         }
+    }
+
+    public boolean MatriculaLibre(String matricula, Avio[] aeroport) {
+        for (Avio avio : aeroport) {
+            if (avio == null) break;
+            else if (avio.getMatricula().equals(matricula)) return false;
+        }
+        return true;
+    }
+
+    public Avio AvionXMatricula(String matricula, Avio[] aeroport) {
+        for (Avio avio : aeroport) if (avio.getMatricula().equals(matricula)) return avio;
+        return null;
     }
 
     public static void main(String[] args) {
@@ -77,37 +97,36 @@ public class Aeroport {
                 System.out.println("\nBenvingut al controlador del espai aeri\nQue vols fer?\n1- Mostrar info avions\n2- Moure avions\n3- Controlar perills\n0- Sortir");
                 opcioInt = p.NextInt("Opcio: ");
                 switch (opcioInt) {
-                    case 1:
+                    case 1 -> {
                         for (Avio avio : aeroport) avio.MostrarInfo();
                         System.out.println();
-                        break;
-                    case 2:
-                        for (Avio avio : aeroport) {
-                            System.out.printf("\nAvio: %s\n", avio.getMatricula());
-                            opcioChar = p.NextString("Vols moure aquest avio? 'S' o 'N': ").toUpperCase().charAt(0);
+                    }
+                    case 2 -> {
+                        boolean mover = true;
+                        while (mover) {
+                            opcioChar = p.NextString("Vols moure un avio? 'S' o 'N': ").toUpperCase().charAt(0);
                             if (opcioChar == 'S') {
-                                opcioChar = p.NextString("Vols modificar la posicio X o l'alçada 'X' o 'Y': ").toUpperCase().charAt(0);
-                                if (opcioChar == 'X') {
-                                    opcioInt = p.NextInt("endavant (1) endarrera (0): ");
-                                    if (opcioInt == 1) avio.ModificarPos(true);
-                                    else if (opcioInt == 0) avio.ModificarPos(false);
-                                }
-                                else if (opcioChar == 'Y') {
-                                    opcioInt = p.NextInt("Amunt (1) Avall (0): ");
-                                    if (opcioInt == 1) avio.ModificarAlt(true);
-                                    else if (opcioInt == 0) avio.ModificarAlt(false);
-                                }
-                            }
+                                String matricula = p.NextString("Matricula: ");
+                                if (!p.MatriculaLibre(matricula, aeroport)) {
+                                    Avio avio = p.AvionXMatricula(matricula, aeroport);
+                                    opcioChar = p.NextString("Vols modificar la posicio X o l'alçada 'X' o 'Y': ").toUpperCase().charAt(0);
+                                    if (opcioChar == 'X') {
+                                        opcioInt = p.NextInt("endavant (1) endarrere (0): ");
+                                        if (opcioInt == 1) avio.ModificarPos(true);
+                                        else if (opcioInt == 0) avio.ModificarPos(false);
+                                    } else if (opcioChar == 'Y') {
+                                        opcioInt = p.NextInt("Amunt (1) Avall (0): ");
+                                        if (opcioInt == 1) avio.ModificarAlt(true);
+                                        else if (opcioInt == 0) avio.ModificarAlt(false);
+                                    }
+                                } else System.out.println("Matricula invalida");
+                            } else mover = false;
                         }
-                        break;
-                    case 3:
-                        p.controlar(aeroport);
-                        break;
-                    default:
-                        stop = true;
+                    }
+                    case 3 -> p.controlar(aeroport);
+                    default -> stop = true;
                 }
             }
         }
-
     }
 }
