@@ -58,7 +58,10 @@ public class Aeroport {
     }
 
     public Avio AvionXMatricula(String matricula, Avio[] aeroport) {
-        for (Avio avio : aeroport) if (avio.getMatricula().equals(matricula)) return avio;
+        for (Avio avio : aeroport) {
+            if (avio == null) break;
+            else if (avio.getMatricula().equals(matricula)) return avio;
+        }
         return null;
     }
 
