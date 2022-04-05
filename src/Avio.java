@@ -6,12 +6,12 @@ public class Avio {
     private int capacitat;
     private int pos;
 
-    public Avio(String matricula, int autonomia, int alititud, int capacitat, int pos) {
+    public Avio(String matricula, int autonomia, int capacitat) {
         this.matricula = matricula;
         this.autonomia = autonomia;
-        this.alititud = alititud;
+        this.alititud = 0;
         this.capacitat = capacitat;
-        this.pos = pos;
+        this.pos = 0;
     }
 
     public String getMatricula() {
@@ -62,6 +62,10 @@ public class Avio {
     public void ModificarAlt(boolean direccio) {
         if (direccio) this.setAlititud(this.getAlititud() + 1);
         else this.setAlititud(this.getAlititud() - 1);
+    }
+
+    public void MostrarInfo() {
+        System.out.printf("\nAvio: %s\n - Autonomia: %d\n - Capacitat: %d\n - Posicio X: %d\n - Alititud: %d\n", this.getMatricula(), this.getAutonomia(), this.getCapacitat(), this.getPos(), this.getAlititud());
     }
 
 }
