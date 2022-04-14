@@ -28,7 +28,7 @@ public class Aeroport {
                 if (p.MatriculaLibre(matricula, aeroport)) correcto = true;
                 else System.out.println("Matricula repetida");
             }
-            aeroport[i] = new Avio(matricula, p.NextInt("Autonomia: "), p.NextInt("Capacitat de carrega: "));
+            aeroport[i] = new Avio(matricula, p.NextInt("Autonomia: "), p.NextInt("Capacitat de càrrega: "));
         }
     }
 
@@ -38,10 +38,10 @@ public class Aeroport {
                 if (avioA != avioB) {
                     if (avioA.getAlititud() == avioB.getAlititud()) {
                         if ((avioA.getPos() == avioB.getPos())) {
-                            System.out.printf("\nL'avio %s esta en perill amb l'avio %s\nEstan sobreposats\n", avioA.getMatricula(), avioB.getMatricula());
+                            System.out.printf("\nL'avio %s està en perill amb l'avio %s\nEstan sobreposats\n", avioA.getMatricula(), avioB.getMatricula());
                         }
                         else if ((avioA.getPos() == avioB.getPos() + 1) || (avioA.getPos() == avioB.getPos() - 1)) {
-                            System.out.printf("\nL'avio %s esta en perill amb l'avio %s\nEstan massa aprop\n", avioA.getMatricula(), avioB.getMatricula());
+                            System.out.printf("\nL'avio %s està en perill amb l'avio %s\nEstan massa aprop\n", avioA.getMatricula(), avioB.getMatricula());
                         }
                     }
                 }
@@ -65,7 +65,7 @@ public class Aeroport {
         return null;
     }
 
-    public static void main(String[] args) {
+    public void principal() {
         Avio[] aeroport = new Avio[0];
         boolean stop = false;
         boolean creat = false;
@@ -131,5 +131,9 @@ public class Aeroport {
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        p.principal();
     }
 }

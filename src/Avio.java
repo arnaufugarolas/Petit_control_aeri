@@ -1,6 +1,5 @@
 public class Avio {
     private String matricula;
-
     private int autonomia;
     private int alititud;
     private int capacitat;
